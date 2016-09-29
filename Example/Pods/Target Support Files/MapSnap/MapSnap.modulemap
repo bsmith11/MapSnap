@@ -1,0 +1,6 @@
+framework module MapSnap {
+  umbrella header "MapSnap-umbrella.h"
+
+  export *
+  module * { export * }
+}
