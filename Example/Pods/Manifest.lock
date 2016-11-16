@@ -1,25 +1,25 @@
 PODS:
   - MapSnap (0.1.0):
     - PINCache (~> 2.3)
-  - Nimble (3.2.0)
+  - Nimble (5.1.1)
   - PINCache (2.3)
-  - Quick (0.9.3)
+  - Quick (0.10.0)
 
 DEPENDENCIES:
   - MapSnap (from `../`)
-  - Nimble (~> 3.0)
-  - Quick (~> 0.8)
+  - Nimble (~> 5.1.1)
+  - Quick (~> 0.10)
 
 EXTERNAL SOURCES:
   MapSnap:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
   MapSnap: 95862bbf764c067e5533e01bca467b448ccbdce6
-  Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
+  Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
-  Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
+  Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 
-PODFILE CHECKSUM: fd6053cdbf8b9eae0532cfd1e8e45ce413c0286d
+PODFILE CHECKSUM: 1afe916f58936e29aa44002f1f3994bbc3239342
 
 COCOAPODS: 1.0.1

@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 public extension UIImageView {
-    func setMapImageWithCoordinate(coordinate: CLLocationCoordinate2D?, size: CGSize? = nil, placeholderImage: UIImage? = nil) {
+    func setMapImageWithCoordinate(_ coordinate: CLLocationCoordinate2D?, size: CGSize? = nil, placeholderImage: UIImage? = nil) {
         cancelMapImageOperation()
         
         if let placeholderImage = placeholderImage {
@@ -26,7 +26,7 @@ public extension UIImageView {
             return
         }
         
-        let completion = { [weak self] (image: UIImage?, error: NSError?, operationID: NSUUID?) in
+        let completion = { [weak self] (image: UIImage?, error: Error?, operationID: UUID?) in
             let block = {
                 if self?.mapImageOperationUUID != operationID && operationID != nil {
                     return
@@ -42,11 +42,11 @@ public extension UIImageView {
                 self?.setNeedsLayout()
             }
             
-            if NSThread.isMainThread() {
+            if Thread.isMainThread {
                 block()
             }
             else {
-                dispatch_async(dispatch_get_main_queue(), block)
+                DispatchQueue.main.async(execute: block)
             }
         }
         
@@ -68,9 +68,9 @@ public extension UIImageView {
 private extension UIImageView {
     static var mapImageOperationAssociatedKey = "com.mapSnap.mapImageOperationAssociatedKey"
     
-    var mapImageOperationUUID: NSUUID? {
+    var mapImageOperationUUID: UUID? {
         get {
-            return objc_getAssociatedObject(self, &UIImageView.mapImageOperationAssociatedKey) as? NSUUID
+            return objc_getAssociatedObject(self, &UIImageView.mapImageOperationAssociatedKey) as? UUID
         }
         
         set {
