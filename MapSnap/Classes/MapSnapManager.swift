@@ -9,51 +9,51 @@
 import MapKit
 import PINCache
 
-public typealias MapSnapImageCompletion = (UIImage?, NSError?, NSUUID?) -> Void
+public typealias MapSnapImageCompletion = (UIImage?, Error?, UUID?) -> Void
 
-public class MapSnapManager {
-    public static var sharedInstance = MapSnapManager()
+open class MapSnapManager {
+    open static var sharedInstance = MapSnapManager()
     
-    public var defaultImageSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: 150.0)
-    public var cache: MapSnapCache?
+    open var defaultImageSize = CGSize(width: UIScreen.main.bounds.width, height: 150.0)
+    open var cache: MapSnapCache?
     
-    private var pendingOperationIDs = [NSUUID]()
+    fileprivate var pendingOperationIDs = [UUID]()
 }
 
 // MARK: - Public
 
 public extension MapSnapManager {
-    func cancelImageRequestWithID(ID: NSUUID) {
-        guard let index = pendingOperationIDs.indexOf(ID) else {
+    func cancelImageRequestWithID(_ ID: UUID) {
+        guard let index = pendingOperationIDs.index(of: ID) else {
             return
         }
         
-        pendingOperationIDs.removeAtIndex(index)
+        pendingOperationIDs.remove(at: index)
     }
     
-    func imageForCoordinate(coordinate: CLLocationCoordinate2D, size: CGSize? = nil, completion: MapSnapImageCompletion?) -> NSUUID? {
-        let cache = self.cache ?? PINCache.sharedCache()
+    func imageForCoordinate(_ coordinate: CLLocationCoordinate2D, size: CGSize? = nil, completion: MapSnapImageCompletion?) -> UUID? {
+        let cache = self.cache ?? PINCache.shared()
         let imageSize = size ?? defaultImageSize
         
         let key = [
-            String(coordinate),
+            String(describing: coordinate),
             "\(imageSize.width)x\(imageSize.height)"
-        ].joinWithSeparator("-")
+        ].joined(separator: "-")
         
-        if let image = cache.objectForKey(key) as? UIImage {
+        if let image = cache.object(forKey: key) as? UIImage {
             completion?(image, nil, nil)
             
             return nil
         }
         else {            
-            let operationID = NSUUID()
+            let operationID = UUID()
             
-            let snapshotCompletion = { [weak self] (image: UIImage?, error: NSError?) in
-                guard let index = self?.pendingOperationIDs.indexOf(operationID) else {
+            let snapshotCompletion = { [weak self] (image: UIImage?, error: Error?) in
+                guard let index = self?.pendingOperationIDs.index(of: operationID) else {
                     return
                 }
                 
-                self?.pendingOperationIDs.removeAtIndex(index)
+                self?.pendingOperationIDs.remove(at: index)
                 
                 if let image = image {
                     cache.setObject(image, forKey: key)
