@@ -20,7 +20,7 @@ public extension MKMapSnapshotter {
         options.size = size
         
         let snapshotter = MKMapSnapshotter(options: options)
-        let queue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
+        let queue = DispatchQueue.global(qos: .default)
         
         snapshotter.start(with: queue, completionHandler: { (snapshot, error) in
             guard let snapshot = snapshot else {
