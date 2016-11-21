@@ -9,6 +9,6 @@
 import Foundation
 
 public protocol MapSnapCache {
-    func objectForKey(key: String) -> AnyObject?
-    func setObject(object: NSCoding, forKey: String)
+    func object(for key: String) -> Any?
+    func set(object: NSCoding, for key: String)
 }
