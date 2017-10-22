@@ -11,8 +11,8 @@ import MapKit
 public typealias MapSnapshotterCompletion = (UIImage?, NSError?) -> Void
 
 public extension MKMapSnapshotter {
-    static func image(for coordinate: CLLocationCoordinate2D, size: CGSize, completion: MapSnapshotterCompletion?) {
-        let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+    static func image(for coordinate: CLLocationCoordinate2D, size: CGSize, span: MKCoordinateSpan, completion: MapSnapshotterCompletion?) {
+        
         let region = MKCoordinateRegion(center: coordinate, span: span)
         
         let options = MKMapSnapshotOptions()

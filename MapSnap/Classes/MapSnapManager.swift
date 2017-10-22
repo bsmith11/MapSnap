@@ -16,6 +16,7 @@ open class MapSnapManager {
     
     open var defaultImageSize = CGSize(width: UIScreen.main.bounds.width, height: 150.0)
     open var cache: MapSnapCache?
+    open var defaultMapSpan = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
     
     fileprivate var pendingOperationIDs = [UUID]()
 }
@@ -31,9 +32,10 @@ public extension MapSnapManager {
         pendingOperationIDs.remove(at: index)
     }
     
-    func image(for coordinate: CLLocationCoordinate2D, size: CGSize? = nil, completion: MapSnapImageCompletion?) -> UUID? {
+    func image(for coordinate: CLLocationCoordinate2D, size: CGSize? = nil, span: MKCoordinateSpan? = nil, completion: MapSnapImageCompletion?) -> UUID? {
         let cache = self.cache ?? PINCache.shared()
         let imageSize = size ?? defaultImageSize
+        let mapSpan = span ?? defaultMapSpan
         
         let key = [
             String(describing: coordinate),
@@ -64,7 +66,7 @@ public extension MapSnapManager {
             
             pendingOperationIDs.append(operationID)
             
-            MKMapSnapshotter.image(for: coordinate, size: imageSize, completion: snapshotCompletion)
+            MKMapSnapshotter.image(for: coordinate, size: imageSize, span: mapSpan, completion: snapshotCompletion)
             
             return operationID
         }
